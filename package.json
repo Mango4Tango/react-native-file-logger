@@ -19,15 +19,15 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/BeTomorrow/react-native-file-logger.git",
-		"baseUrl": "https://github.com/BeTomorrow/react-native-file-logger"
+		"url": "git+https://github.com/Mango4Tango/react-native-file-logger.git",
+		"baseUrl": "https://github.com/Mango4Tango/react-native-file-logger"
 	},
 	"keywords": [
 		"react-native"
 	],
 	"author": {
-		"name": "BeTomorrow",
-		"email": "streny@betomorrow.com"
+		"name": "Mango4Tango",
+		"email": "mango.dummy.tango@gmail.com"
 	},
 	"license": "MIT",
 	"licenseFilename": "LICENSE",
