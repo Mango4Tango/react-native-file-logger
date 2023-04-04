@@ -107,10 +107,29 @@ public class FileLoggerModule extends FileLoggerSpec {
         rollingFileAppender.setEncoder(encoder);
         rollingFileAppender.start();
 
-        ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+        ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory
+                .getLogger(Logger.ROOT_LOGGER_NAME);
         root.setLevel(Level.DEBUG);
         root.detachAndStopAllAppenders();
         root.addAppender(rollingFileAppender);
+
+        ch.qos.logback.classic.Logger minaLogger = (ch.qos.logback.classic.Logger) LoggerFactory
+                .getLogger("org.apache.mina");
+        if (minaLogger != null) {
+            minaLogger.setLevel(Level.WARN);
+        }
+
+        ch.qos.logback.classic.Logger sshdLogger = (ch.qos.logback.classic.Logger) LoggerFactory
+                .getLogger("org.apache.sshd");
+        if (sshdLogger != null) {
+            sshdLogger.setLevel(Level.WARN);
+        }
+
+        ch.qos.logback.classic.Logger ftpServerLogger = (ch.qos.logback.classic.Logger) LoggerFactory
+                .getLogger("org.apache.ftpserver");
+        if (ftpServerLogger != null) {
+            ftpServerLogger.setLevel(Level.WARN);
+        }
 
         configureOptions = options;
         promise.resolve(null);
@@ -138,7 +157,7 @@ public class FileLoggerModule extends FileLoggerSpec {
     public void getLogFilePaths(Promise promise) {
         try {
             WritableArray result = Arguments.createArray();
-            for (File logFile: getLogFiles()) {
+            for (File logFile : getLogFiles()) {
                 result.pushString(logFile.getAbsolutePath());
             }
             promise.resolve(result);
@@ -150,7 +169,7 @@ public class FileLoggerModule extends FileLoggerSpec {
     @ReactMethod
     public void deleteLogFiles(Promise promise) {
         try {
-            for (File file: getLogFiles()) {
+            for (File file : getLogFiles()) {
                 file.delete();
             }
             if (configureOptions != null) {
@@ -172,7 +191,7 @@ public class FileLoggerModule extends FileLoggerSpec {
 
             Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE, Uri.parse("mailto:"));
             intent.setType("plain/text");
-            
+
             if (to != null) {
                 intent.putExtra(Intent.EXTRA_EMAIL, readableArrayToStringArray(to));
             }
@@ -193,7 +212,7 @@ public class FileLoggerModule extends FileLoggerSpec {
             }
             intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            
+
             reactContext.startActivity(intent);
 
             promise.resolve(null);
@@ -219,6 +238,6 @@ public class FileLoggerModule extends FileLoggerSpec {
             strArray[i] = r.getString(i);
         }
         return strArray;
-  }
+    }
 
 }
